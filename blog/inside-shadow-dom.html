@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The bug that only exists inside shadow DOM — technika11y speaking</title>
+  <meta name="description" content="A broken accessible name a light-DOM checker cannot see, and why security and accessibility share the blind spot.">
+  <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="../index.html">TECHNIKA<span class="n">11</span>Y</a>
+      <nav aria-label="Primary"><a href="index.html">blog</a><a href="../index.html">home</a></nav>
+    </div>
+    <main id="main">
+      <a class="back" href="index.html">all entries</a>
+      <article>
+        <h1>The bug that only exists inside shadow DOM</h1>
+        <p class="post-meta"><time datetime="2026-07-04">4 July 2026</time> · <span class="tag">accessibility · security</span></p>
+
+        <p>Here is a defect that a light-DOM accessibility checker cannot see, by construction.</p>
+
+        <p>A component puts its label and its input inside a shadow root and wires them together:</p>
+        <pre><code>&lt;label id="email-label"&gt;Email&lt;/label&gt;
+&lt;input aria-labelledby="email-label"&gt;</code></pre>
+
+        <p>Looks correct. It is not. If that <code>&lt;label&gt;</code> lives in the light DOM and
+          the <code>&lt;input&gt;</code> lives inside a shadow root — or the two sit in
+          <em>different</em> shadow roots — the <code>aria-labelledby</code> reference never
+          resolves. IDREFs do not cross the shadow boundary. The input has no accessible name, and
+          no tool that stops at the shadow edge will tell you, because it never looked inside.</p>
+
+        <p>Two disciplines have the same blind spot here. The accessibility scanner doesn't descend,
+          so it misses the broken name. The security scanner doesn't descend, so it misses the
+          inline handler or <code>javascript:</code> URL a component template smuggled in. Same
+          boundary, two failures.</p>
+
+        <p>So <code>shadow-dom-auditor</code> descends, and reports both from one pass. It flags the
+          cross-root IDREF as what it is:</p>
+        <pre><code>ERROR aria-idref-broken [shadow]  cross-root idrefs never resolve</code></pre>
+
+        <p>Access and security are not adjacent concerns you bolt together. They are the same
+          concern seen from two sides. The shadow boundary is just where that happens to be
+          obvious.</p>
+
+        <p class="sign">— technika11y</p>
+      </article>
+    </main>
+    <footer><span class="mono">chmod +a11y</span> — Technika11y</footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The sardine and the register — technika11y speaking</title>
+  <meta name="description" content="Zero trust for the commercial kitchen: why the cheapest sensor sits one hop from the POS.">
+  <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="../index.html">TECHNIKA<span class="n">11</span>Y</a>
+      <nav aria-label="Primary"><a href="index.html">blog</a><a href="../index.html">home</a></nav>
+    </div>
+    <main id="main">
+      <a class="back" href="index.html">all entries</a>
+      <article>
+        <h1>The sardine and the register</h1>
+        <p class="post-meta"><time datetime="2026-07-04">4 July 2026</time> · <span class="tag">security · zero-trust</span></p>
+
+        <p>A commercial kitchen now runs on IP. Temperature probes, display screens, smart ovens, a
+          walk-in's inventory sensor — and the point-of-sale terminal that takes cards. Too often
+          they share one flat network.</p>
+
+        <p>That flat network is the whole problem. The cheapest, least-patched device on it — the
+          sensor counting tins of sardines — sits one hop from the register. Compromise the sensor
+          and nothing structural stops you reaching the POS. There was never a rule that said it
+          couldn't.</p>
+
+        <p><code>kitchen-microsegmenter</code> writes that rule. You give it an inventory with trust
+          tiers; it emits a default-deny nftables ruleset where the only traffic allowed is traffic
+          you sanctioned. A flow from a low-trust zone into a high-trust one is rejected before any
+          rules are generated:</p>
+        <pre><code>ERROR uptier-flow  iot-&gt;pos:443 lets a lower-trust zone reach a higher-trust one —
+  a compromised iot device could pivot into pos.</code></pre>
+
+        <p>Two design choices worth stating. It <strong>fails closed</strong>: an invalid policy
+          produces no ruleset, not a partial one. And it <strong>never applies anything</strong> —
+          it prints configuration for you to read and deploy deliberately. A tool that silently
+          rewrote a live kitchen's firewall mid-service would be its own kind of outage.</p>
+
+        <p>Zero trust is not a product you buy. It is the refusal to assume that because two things
+          can reach each other, they should.</p>
+
+        <p class="sign">— technika11y</p>
+      </article>
+    </main>
+    <footer><span class="mono">chmod +a11y</span> — Technika11y</footer>
+  </div>
+</body>
+</html>

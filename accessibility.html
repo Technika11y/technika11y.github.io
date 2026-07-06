@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accessibility statement — Technika11y</title>
+  <meta name="description" content="How Technika11y approaches the accessibility of this site — what conforms, what is still unverified, and how to report a barrier.">
+  <style>
+    :root {
+      --bg: #0d0d0d; --ink: #d3dbe3; --muted: #8b95a1; --cyan: #00ffff; --magenta: #ff00ff;
+      --line: #1e2128; --focus: #ffff00;
+      --mono: ui-monospace, "JetBrains Mono", "Fira Code", "SFMono-Regular", Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--mono); line-height: 1.6; }
+    a { color: var(--cyan); }
+    a:focus-visible, summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+    .skip { position: absolute; left: -999px; top: 0; background: var(--focus); color: #000; padding: .6rem 1rem; font-weight: 700; }
+    .skip:focus { left: .5rem; top: .5rem; }
+    .wrap { width: min(760px, 92vw); margin: 0 auto; padding: 2.5rem 0 4rem; }
+    .back { color: var(--muted); text-decoration: none; font-size: .85rem; }
+    .back::before { content: "\2190 "; }
+    h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); margin: 1.4rem 0 .4rem; }
+    h1 .n { color: var(--cyan); }
+    .updated { color: var(--muted); font-size: .82rem; margin: 0 0 2rem; }
+    h2 { color: var(--magenta); font-size: 1rem; letter-spacing: .04em; margin: 2.2rem 0 .6rem; }
+    h2::before { content: "// "; }
+    ul { padding-left: 1.2rem; } li { margin: .3rem 0; }
+    .note { border-left: 3px solid var(--cyan); background: #121316; padding: .8rem 1.1rem; border-radius: 4px; }
+    code { color: var(--cyan); }
+    footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding-top: 1.2rem; color: var(--muted); font-size: .82rem; }
+    @media (forced-colors: active) { .note { border-color: CanvasText; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <div class="wrap">
+    <a class="back" href="index.html">back</a>
+    <main id="main">
+      <h1>Accessibility statement<span class="n">.</span></h1>
+      <p class="updated">Last reviewed 4 July 2026.</p>
+
+      <p>Technika11y builds accessibility tooling. This site should be an example of the standard we
+        hold others to, so we state our position plainly — including what we have <em>not</em> yet
+        verified. Overclaiming conformance would betray the whole point.</p>
+
+      <h2>target</h2>
+      <p>We aim for <strong>WCAG 2.2 Level AA</strong>.</p>
+
+      <h2>what this site does today</h2>
+      <ul>
+        <li>Fully keyboard operable, with a visible focus indicator and a skip link.</li>
+        <li>Semantic landmarks and a logical heading order.</li>
+        <li>Respects <code>prefers-reduced-motion</code>, plus a visible control to pause motion.</li>
+        <li>A high-contrast toggle, and support for forced-colors / high-contrast modes.</li>
+        <li>Progressive disclosure via native <code>&lt;details&gt;</code> — works with mouse,
+          keyboard, touch, and screen readers, never hover-only.</li>
+        <li>No meaning carried by colour alone; status and labels are always text.</li>
+      </ul>
+
+      <h2>how we measure</h2>
+      <p>This page is checked against our own <strong>Shadow-DOM Auditor</strong> as part of the
+        build. Automated <code>axe</code> checks and manual assistive-technology testing are
+        planned but not yet complete.</p>
+
+      <h2>known limitations</h2>
+      <ul>
+        <li>Not yet independently audited, nor tested across the full range of screen-reader and
+          browser combinations.</li>
+        <li>The hero uses a decorative animated grid; it is mitigated by reduced-motion support and
+          the pause control, but is motion nonetheless.</li>
+        <li>Any raster brand banner added later will ship with a text alternative — none is embedded
+          on this page yet.</li>
+      </ul>
+
+      <h2>report a barrier</h2>
+      <p>If something here is hard to use, tell us — that is a bug, and we want it. Open an issue on
+        the <code>technika11y</code> GitHub organization, or email the maintainer listed there. We
+        aim to acknowledge within <strong>5 business days</strong>.</p>
+
+      <div class="note">This statement is honest by design: it lists gaps rather than hiding them.
+        As the site is audited and fixed, this page gets updated — not quietly polished.</div>
+
+      <footer><span style="color:var(--cyan)">chmod +a11y</span> — Technika11y</footer>
+    </main>
+  </div>
+</body>
+</html>

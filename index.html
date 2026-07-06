@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en" data-motion="on" data-contrast="normal">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Technika11y — Root access for everyone</title>
+  <meta name="description" content="Security, compliance, and accessibility are one discipline. Root access for everyone.">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --panel: #121316;
+      --ink: #cdd6df;
+      --muted: #8b95a1;
+      --cyan: #00ffff;
+      --magenta: #ff00ff;
+      --yellow: #ffff00;
+      --line: #1e2128;
+      --grid: rgba(0, 255, 255, 0.10);
+      --glow: 0 0 18px rgba(0, 255, 255, 0.35);
+      --focus: #ffff00;
+      --mono: ui-monospace, "JetBrains Mono", "Fira Code", "SFMono-Regular", Menlo, Consolas, monospace;
+    }
+    html[data-contrast="high"] {
+      --bg: #000000;
+      --panel: #0a0a0a;
+      --ink: #ffffff;
+      --muted: #e6e6e6;
+      --cyan: #79ffff;
+      --magenta: #ff8bff;
+      --yellow: #ffff5c;
+      --line: #ffffff;
+      --grid: rgba(255, 255, 255, 0.14);
+      --glow: none;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: var(--mono); line-height: 1.5; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--cyan); }
+    a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 2px;
+    }
+    .skip { position: absolute; left: -999px; top: 0; z-index: 100; background: var(--yellow); color: #000; padding: .6rem 1rem; font-weight: 700; }
+    .skip:focus { left: .5rem; top: .5rem; }
+    .wrap { width: min(920px, 92vw); margin-inline: auto; }
+
+    /* header */
+    header { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+    .bar { display: flex; align-items: center; gap: 1rem; padding: .7rem 0; flex-wrap: wrap; }
+    .brand { font-weight: 800; letter-spacing: .12em; color: var(--ink); text-decoration: none; }
+    .brand .n { color: var(--cyan); }
+    nav.main { display: flex; gap: 1.1rem; margin-left: auto; flex-wrap: wrap; }
+    nav.main a { color: var(--muted); text-decoration: none; font-size: .85rem; }
+    nav.main a:hover { color: var(--cyan); }
+    .controls { display: flex; gap: .5rem; }
+    .ctl { background: var(--panel); color: var(--ink); border: 1px solid var(--line); font-family: var(--mono); font-size: .74rem; padding: .38rem .55rem; cursor: pointer; border-radius: 4px; }
+    .ctl[aria-pressed="true"] { border-color: var(--cyan); color: var(--cyan); }
+
+    /* hero */
+    .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+    .hero .grid-bg {
+      position: absolute; inset: -40% -10% -10% -10%; z-index: 0; pointer-events: none;
+      background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 44px 44px;
+      transform: perspective(520px) rotateX(58deg) translateY(-6%); transform-origin: top center;
+      mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+      animation: drift 14s linear infinite;
+    }
+    @keyframes drift { to { background-position: 0 44px, 44px 0; } }
+    .hero .inner { position: relative; z-index: 1; padding: clamp(3rem, 10vw, 7rem) 0 clamp(2.5rem, 6vw, 4rem); }
+    .kicker { color: var(--magenta); letter-spacing: .3em; font-size: .74rem; text-transform: uppercase; margin: 0 0 1.1rem; }
+    .wordmark { margin: 0; font-weight: 800; letter-spacing: .04em; line-height: .95; font-size: clamp(2.6rem, 11vw, 7rem); color: var(--ink); text-shadow: var(--glow); }
+    .wordmark .n { color: var(--cyan); }
+    .tagline { font-size: clamp(1.1rem, 3.4vw, 1.6rem); margin: 1.2rem 0 .2rem; color: var(--ink); }
+    .cursor { display: inline-block; width: .55ch; height: 1.05em; background: var(--cyan); margin-left: .2em; vertical-align: -0.12em; animation: blink 1.1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .subline { color: var(--muted); margin: 0 0 1.8rem; }
+    .prompts { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+    .prompt { text-decoration: none; color: var(--muted); font-size: .95rem; border-bottom: 1px solid transparent; }
+    .prompt::before { content: "> "; color: var(--cyan); }
+    .prompt:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+    /* sections */
+    section { padding: clamp(2.2rem, 5vw, 3.6rem) 0; border-bottom: 1px solid var(--line); }
+    h2 { font-size: clamp(1.1rem, 3vw, 1.4rem); margin: 0 0 1.2rem; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+    h2 .hash { color: var(--magenta); }
+
+    .code-panel { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--cyan); border-radius: 6px; padding: 1rem 1.2rem; overflow-x: auto; font-size: .84rem; }
+    .code-panel pre { margin: 0; }
+    .tok-c { color: var(--muted); } .tok-k { color: var(--magenta); } .tok-n { color: var(--cyan); } .tok-s { color: var(--yellow); }
+
+    /* disclosure rows */
+    details { border: 1px solid var(--line); border-radius: 6px; background: var(--panel); margin: .5rem 0; }
+    summary { cursor: pointer; padding: .75rem 1rem; list-style: none; display: flex; align-items: center; gap: .75rem; font-size: .92rem; }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "+"; color: var(--cyan); font-weight: 700; width: 1ch; }
+    details[open] summary::before { content: "\2212"; }
+    summary:hover { background: color-mix(in srgb, var(--cyan) 8%, transparent); }
+    summary .sid { color: var(--muted); }
+    summary .sname { color: var(--ink); }
+    .detail-body { padding: .2rem 1rem 1.1rem 2.3rem; color: var(--muted); font-size: .88rem; }
+    .detail-body .out { color: var(--cyan); white-space: pre-wrap; word-break: break-word; margin-top: .6rem; }
+    .badge { margin-left: auto; font-size: .64rem; letter-spacing: .08em; text-transform: uppercase; padding: .16rem .5rem; border-radius: 999px; border: 1px solid currentColor; }
+    .badge.alpha { color: var(--cyan); } .badge.flagship { color: var(--magenta); } .badge.planned { color: var(--muted); } .badge.gated { color: var(--yellow); }
+
+    /* roadmap */
+    .roadhead { color: var(--muted); font-size: .84rem; margin: 0 0 1.4rem; }
+    .modules { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .module h3 { margin: 0 0 .7rem; font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; color: var(--cyan); }
+    ul.roster { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+    ul.roster li { display: flex; align-items: baseline; gap: .5rem; font-size: .82rem; }
+    ul.roster .id { color: var(--muted); min-width: 3.8em; }
+    ul.roster .st { margin-left: auto; font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; }
+    .st.alpha { color: var(--cyan); } .st.flagship { color: var(--magenta); } .st.planned { color: var(--muted); } .st.gated { color: var(--yellow); }
+    #roadmap .modules-stack details { margin: .5rem 0; }
+    #roadmap .detail-body { color: var(--ink); padding-top: .6rem; }
+    #roadmap summary .sname { text-transform: uppercase; letter-spacing: .08em; font-size: .82rem; color: var(--cyan); }
+
+    /* gate */
+    .gate { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+    @media (min-width: 720px) { .gate { grid-template-columns: 1fr 1fr; } }
+    fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; background: var(--panel); }
+    legend { color: var(--magenta); padding: 0 .4rem; font-size: .74rem; text-transform: uppercase; letter-spacing: .12em; }
+    .check { display: flex; align-items: center; gap: .6rem; margin: .5rem 0; }
+    .check input { width: 1.1rem; height: 1.1rem; accent-color: var(--cyan); }
+    .result { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 1.1rem; display: flex; align-items: center; }
+    .result[data-state="granted"] { border-left: 3px solid var(--cyan); }
+    .result[data-state="denied"] { border-left: 3px solid var(--yellow); }
+    .result output { font-size: 1rem; word-break: break-word; }
+    .state-granted { color: var(--cyan); } .state-denied { color: var(--yellow); }
+
+    blockquote { margin: 0; border-left: 3px solid var(--magenta); padding: .2rem 0 .2rem 1.2rem; color: var(--ink); font-size: 1rem; }
+
+    footer { padding: 2.2rem 0; color: var(--muted); font-size: .82rem; display: flex; gap: 1rem 2rem; flex-wrap: wrap; align-items: baseline; }
+    footer .mono { color: var(--cyan); }
+
+    html[data-motion="off"] .grid-bg, html[data-motion="off"] .cursor { animation: none; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .grid-bg, .cursor { animation: none; } }
+    @media (forced-colors: active) { .badge, .ctl, .code-panel, details { border-color: CanvasText; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="#top">TECHNIKA<span class="n">11</span>Y</a>
+      <nav class="main" aria-label="Primary">
+        <a href="#thesis">thesis</a>
+        <a href="#live">live</a>
+        <a href="#roadmap">roadmap</a>
+        <a href="#gate">gate</a>
+        <a href="blog/">blog</a>
+      </nav>
+      <div class="controls">
+        <button type="button" id="toggle-motion" class="ctl" aria-pressed="false">Pause motion</button>
+        <button type="button" id="toggle-contrast" class="ctl" aria-pressed="false">High contrast</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="hero" id="top">
+      <div class="grid-bg" aria-hidden="true"></div>
+      <div class="wrap inner">
+        <p class="kicker">The Architect of Access</p>
+        <h1 class="wordmark">TECHNIKA<span class="n">11</span>Y</h1>
+        <p class="tagline">Root access for everyone.<span class="cursor" aria-hidden="true"></span></p>
+        <p class="subline">Security and accessibility are one discipline.</p>
+        <div class="prompts">
+          <a class="prompt" href="#gate">gate</a>
+          <a class="prompt" href="#live">live</a>
+          <a class="prompt" href="#roadmap">roadmap</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- THESIS: let the code speak -->
+    <section id="thesis">
+      <div class="wrap">
+        <h2><span class="hash">//</span> one discipline, two sides</h2>
+        <div class="code-panel">
+<pre><code><span class="tok-c">// A gate that's locked but unusable has failed; so has one that's usable but open.</span>
+
+<span class="tok-k">const</span> REQUIRE = { PERCEIVABLE: <span class="tok-n">0b0001</span>, OPERABLE: <span class="tok-n">0b0010</span>, ROBUST: <span class="tok-n">0b0100</span>, SECURE: <span class="tok-n">0b1000</span> };
+<span class="tok-k">const</span> FULL = REQUIRE.PERCEIVABLE | REQUIRE.OPERABLE | REQUIRE.ROBUST | REQUIRE.SECURE; <span class="tok-c">// 0b1111</span>
+
+<span class="tok-k">function</span> gate(profile) {
+  <span class="tok-k">const</span> missing = FULL &amp; ~profile.conformance;
+  <span class="tok-k">if</span> (missing === <span class="tok-n">0</span>) <span class="tok-k">return</span> { access: <span class="tok-s">"granted"</span> };
+
+  <span class="tok-c">// Say *why*. Hiding the reason isn't security — it's an inaccessible error.</span>
+  <span class="tok-k">return</span> { access: <span class="tok-s">"denied"</span>, unmet: decode(missing) };
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- GATE: the interaction -->
+    <section id="gate">
+      <div class="wrap">
+        <h2><span class="hash">//</span> the gate</h2>
+        <div class="gate">
+          <fieldset>
+            <legend>profile.conformance</legend>
+            <label class="check"><input type="checkbox" data-bit="perceivable"> Perceivable</label>
+            <label class="check"><input type="checkbox" data-bit="operable"> Operable</label>
+            <label class="check"><input type="checkbox" data-bit="robust"> Robust</label>
+            <label class="check"><input type="checkbox" data-bit="secure"> Secure</label>
+          </fieldset>
+          <div class="result" id="gate-result" data-state="denied">
+            <output id="gate-output" aria-live="polite" class="state-denied">access: "denied" — unmet: ["perceivable","operable","robust","secure"]</output>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE: terse, reveal on demand -->
+    <section id="live">
+      <div class="wrap">
+        <h2><span class="hash">//</span> live</h2>
+        <details>
+          <summary><span class="sid">RES-06</span> <span class="sname">shadow-dom-auditor</span> <span class="badge alpha">alpha</span></summary>
+          <div class="detail-body">
+            Pierces shadow DOM for the accessibility defects and injection-sink smells conventional
+            scanners walk past — including cross-root <code>aria-labelledby</code> that can't resolve
+            by design.
+            <div class="out">ERROR aria-idref-broken [shadow] — cross-root idrefs never resolve</div>
+          </div>
+        </details>
+        <details>
+          <summary><span class="sid">OPS-10</span> <span class="sname">kitchen-microsegmenter</span> <span class="badge alpha">alpha</span></summary>
+          <div class="detail-body">
+            A device inventory becomes a zero-trust, default-deny nftables ruleset — a compromised
+            sensor can't pivot to the POS. Fails closed. Never auto-applies.
+            <div class="out">ERROR uptier-flow — iot-&gt;pos:443 could pivot into pos</div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ROADMAP: shown, not sold -->
+    <section id="roadmap">
+      <div class="wrap">
+        <h2><span class="hash">//</span> roadmap</h2>
+        <p class="roadhead">Twenty-eight. Five first. Status is honest.</p>
+        <div class="modules-stack">
+          <details>
+            <summary><span class="sname">research</span> <span class="badge planned">7</span></summary>
+            <div class="detail-body">
+              <ul class="roster">
+                <li><span class="id">RES-01</span> protocol-fuzzer <span class="st planned">planned</span></li>
+                <li><span class="id">RES-02</span> forensic-vault <span class="st planned">planned</span></li>
+                <li><span class="id">RES-03</span> hid-toolkit <span class="st planned">planned</span></li>
+                <li><span class="id">RES-04</span> pos-interceptor <span class="st planned">planned</span></li>
+                <li><span class="id">RES-05</span> evasion-sandbox <span class="st planned">planned</span></li>
+                <li><span class="id">RES-06</span> shadow-dom-auditor <span class="st alpha">alpha</span></li>
+                <li><span class="id">RES-07</span> airgap-detector <span class="st gated">de-risk</span></li>
+              </ul>
+            </div>
+          </details>
+          <details>
+            <summary><span class="sname">assurance</span> <span class="badge planned">7</span></summary>
+            <div class="detail-body">
+              <ul class="roster">
+                <li><span class="id">IA-01</span> credential-entropy <span class="st planned">planned</span></li>
+                <li><span class="id">IA-02</span> pdf-ua-linter <span class="st alpha">alpha</span></li>
+                <li><span class="id">IA-03</span> wcag-ci-gate <span class="st planned">planned</span></li>
+                <li><span class="id">IA-04</span> vpat-generator <span class="st planned">planned</span></li>
+                <li><span class="id">IA-05</span> procurement-scanner <span class="st planned">planned</span></li>
+                <li><span class="id">IA-06</span> incident-disclosure-toolkit <span class="st alpha">alpha</span></li>
+                <li><span class="id">IA-07</span> log-hardener <span class="st planned">planned</span></li>
+              </ul>
+            </div>
+          </details>
+          <details>
+            <summary><span class="sname">operations</span> <span class="badge planned">14</span></summary>
+            <div class="detail-body">
+              <ul class="roster">
+                <li><span class="id">OPS-01</span> recipe-costing <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-02</span> haccp-automator <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-03</span> traceability-ledger <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-04</span> staff-training-bot <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-05</span> kds-middleware <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-06</span> npd-tracker <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-07</span> menu-a11y-engine <span class="st alpha">alpha</span></li>
+                <li><span class="id">OPS-08</span> allergen-validator <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-09</span> iot-firmware-auditor <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-10</span> kitchen-microseg <span class="st alpha">alpha</span></li>
+                <li><span class="id">OPS-11</span> price-optimizer <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-12</span> sous-vide-telemetry <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-13</span> food-waste-engine <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-14</span> skim-identity <span class="st gated">de-risk</span></li>
+              </ul>
+            </div>
+          </details>
+          <details>
+            <summary><span class="sname">labs</span> <span class="badge planned">2</span></summary>
+            <div class="detail-body">
+              <p style="color:var(--muted); font-size:.8rem; margin:.2rem 0 .8rem;">Affectionate homages, built real — outside the core 28.</p>
+              <ul class="roster">
+                <li><span class="id">LAB-01</span> tron <span class="st alpha">alpha</span></li>
+                <li><span class="id">LAB-02</span> cyberdyne <span class="st alpha">alpha</span></li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOCTRINE: one line -->
+    <section id="doctrine">
+      <div class="wrap">
+        <h2><span class="hash">//</span> doctrine</h2>
+        <blockquote>Ship few, ship real, label honestly. Authority is earned, never staged.</blockquote>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex; gap:1rem 2rem; flex-wrap:wrap;">
+      <span class="mono">chmod +a11y</span>
+      <span>Technika11y — independent portfolio.</span>
+      <a href="blog/">blog</a>
+      <a href="accessibility.html">accessibility statement</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+
+      var motionBtn = document.getElementById('toggle-motion');
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function setMotion(off) {
+        root.dataset.motion = off ? 'off' : 'on';
+        motionBtn.setAttribute('aria-pressed', String(off));
+        motionBtn.textContent = off ? 'Resume motion' : 'Pause motion';
+      }
+      setMotion(prefersReduced);
+      motionBtn.addEventListener('click', function () { setMotion(root.dataset.motion !== 'off'); });
+
+      var contrastBtn = document.getElementById('toggle-contrast');
+      contrastBtn.addEventListener('click', function () {
+        var high = root.dataset.contrast !== 'high';
+        root.dataset.contrast = high ? 'high' : 'normal';
+        contrastBtn.setAttribute('aria-pressed', String(high));
+      });
+
+      var BIT = { perceivable: 1, operable: 2, robust: 4, secure: 8 };
+      var FULL = BIT.perceivable | BIT.operable | BIT.robust | BIT.secure;
+      var boxes = Array.prototype.slice.call(document.querySelectorAll('[data-bit]'));
+      var panel = document.getElementById('gate-result');
+      var out = document.getElementById('gate-output');
+      function decode(missing) { return Object.keys(BIT).filter(function (k) { return missing & BIT[k]; }); }
+      function evaluate() {
+        var conf = 0;
+        boxes.forEach(function (b) { if (b.checked) conf |= BIT[b.dataset.bit]; });
+        var missing = FULL & ~conf;
+        if (missing === 0) {
+          panel.dataset.state = 'granted'; out.className = 'state-granted';
+          out.textContent = 'access: "granted"';
+        } else {
+          panel.dataset.state = 'denied'; out.className = 'state-denied';
+          out.textContent = 'access: "denied" — unmet: ' + JSON.stringify(decode(missing));
+        }
+      }
+      boxes.forEach(function (b) { b.addEventListener('change', evaluate); });
+      evaluate();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unknown is not none — technika11y speaking</title>
+  <meta name="description" content="A missing allergen field is not allergen-free. It is unlabeled, and software should refuse to paper over it.">
+  <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="../index.html">TECHNIKA<span class="n">11</span>Y</a>
+      <nav aria-label="Primary"><a href="index.html">blog</a><a href="../index.html">home</a></nav>
+    </div>
+    <main id="main">
+      <a class="back" href="index.html">all entries</a>
+      <article>
+        <h1>Unknown is not none</h1>
+        <p class="post-meta"><time datetime="2026-07-04">4 July 2026</time> · <span class="tag">accessibility · safety</span></p>
+
+        <p>A menu item with no allergen field is not "allergen-free." It is unlabeled. Those are
+          opposite conditions, and a system that treats them the same can hurt someone.</p>
+
+        <p>Most menu tooling encodes allergens as an optional badge — present it if you have it,
+          skip it if you don't. Convenient, and wrong. The absence of the data is itself information
+          the diner needs, and the software should refuse to paper over it.</p>
+
+        <p><code>menu-a11y-engine</code> treats a missing allergen field as an error, not a
+          warning:</p>
+        <pre><code>ERROR item-allergens-undeclared  "Mystery Special" has no allergens field —
+  declare it, even if empty. Unknown != none.</code></pre>
+
+        <p>An empty list is fine — that is a claim: <em>no major allergens</em>. Silence is not a
+          claim. And it fails closed: if the data has errors, it will not render the menu at all. A
+          half-rendered menu that drops the allergen line is worse than no menu.</p>
+
+        <p>The same discipline shows up on the accessibility side. Allergen and dietary information
+          renders as text, never as a colour or an icon alone — because "the green dot means vegan"
+          is not information to a screen reader, and not information to someone who can't distinguish
+          the dot.</p>
+
+        <p>Safety and accessibility keep turning out to be the same request: say the thing, plainly,
+          to everyone.</p>
+
+        <p class="sign">— technika11y</p>
+      </article>
+    </main>
+    <footer><span class="mono">chmod +a11y</span> — Technika11y</footer>
+  </div>
+</body>
+</html>
