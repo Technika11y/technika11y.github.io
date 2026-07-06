@@ -151,6 +151,9 @@
     html[data-motion="off"] .grid-bg, html[data-motion="off"] .cursor { animation: none; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .grid-bg, .cursor { animation: none; } }
     @media (forced-colors: active) { .badge, .ctl, .code-panel, details { border-color: CanvasText; } }
+      .roster a { text-decoration: none; }
+    .roster a:hover { text-decoration: underline; }
+    .repolink { display: inline-block; margin-top: .6rem; font-size: .8rem; }
   </style>
 </head>
 <body>
@@ -240,6 +243,7 @@
             scanners walk past — including cross-root <code>aria-labelledby</code> that can't resolve
             by design.
             <div class="out">ERROR aria-idref-broken [shadow] — cross-root idrefs never resolve</div>
+            <a class="repolink" href="https://github.com/technika11y/shadow-dom-auditor">→ view on github</a>
           </div>
         </details>
         <details>
@@ -248,6 +252,7 @@
             A device inventory becomes a zero-trust, default-deny nftables ruleset — a compromised
             sensor can't pivot to the POS. Fails closed. Never auto-applies.
             <div class="out">ERROR uptier-flow — iot-&gt;pos:443 could pivot into pos</div>
+            <a class="repolink" href="https://github.com/technika11y/kitchen-microsegmenter">→ view on github</a>
           </div>
         </details>
       </div>
@@ -268,7 +273,7 @@
                 <li><span class="id">RES-03</span> hid-toolkit <span class="st planned">planned</span></li>
                 <li><span class="id">RES-04</span> pos-interceptor <span class="st planned">planned</span></li>
                 <li><span class="id">RES-05</span> evasion-sandbox <span class="st planned">planned</span></li>
-                <li><span class="id">RES-06</span> shadow-dom-auditor <span class="st alpha">alpha</span></li>
+                <li><span class="id">RES-06</span> <a href="https://github.com/technika11y/shadow-dom-auditor">shadow-dom-auditor</a> <span class="st alpha">alpha</span></li>
                 <li><span class="id">RES-07</span> airgap-detector <span class="st gated">de-risk</span></li>
               </ul>
             </div>
@@ -278,12 +283,12 @@
             <div class="detail-body">
               <ul class="roster">
                 <li><span class="id">IA-01</span> credential-entropy <span class="st planned">planned</span></li>
-                <li><span class="id">IA-02</span> pdf-ua-linter <span class="st alpha">alpha</span></li>
+                <li><span class="id">IA-02</span> <a href="https://github.com/technika11y/pdf-ua-linter">pdf-ua-linter</a> <span class="st alpha">alpha</span></li>
                 <li><span class="id">IA-03</span> wcag-ci-gate <span class="st planned">planned</span></li>
-                <li><span class="id">IA-04</span> vpat-generator <span class="st planned">planned</span></li>
-                <li><span class="id">IA-05</span> procurement-scanner <span class="st planned">planned</span></li>
-                <li><span class="id">IA-06</span> incident-disclosure-toolkit <span class="st alpha">alpha</span></li>
-                <li><span class="id">IA-07</span> log-hardener <span class="st planned">planned</span></li>
+                <li><span class="id">IA-04</span> <a href="https://github.com/technika11y/vpat-generator">vpat-generator</a> <span class="st alpha">alpha</span></li>
+                <li><span class="id">IA-05</span> <a href="https://github.com/technika11y/procurement-scanner">procurement-scanner</a> <span class="st alpha">alpha</span></li>
+                <li><span class="id">IA-06</span> <a href="https://github.com/technika11y/incident-disclosure-toolkit">incident-disclosure-toolkit</a> <span class="st alpha">alpha</span></li>
+                <li><span class="id">IA-07</span> <a href="https://github.com/technika11y/log-hardener">log-hardener</a> <span class="st alpha">alpha</span></li>
               </ul>
             </div>
           </details>
@@ -297,12 +302,12 @@
                 <li><span class="id">OPS-04</span> staff-training-bot <span class="st planned">planned</span></li>
                 <li><span class="id">OPS-05</span> kds-middleware <span class="st planned">planned</span></li>
                 <li><span class="id">OPS-06</span> npd-tracker <span class="st planned">planned</span></li>
-                <li><span class="id">OPS-07</span> menu-a11y-engine <span class="st alpha">alpha</span></li>
-                <li><span class="id">OPS-08</span> allergen-validator <span class="st planned">planned</span></li>
-                <li><span class="id">OPS-09</span> iot-firmware-auditor <span class="st planned">planned</span></li>
-                <li><span class="id">OPS-10</span> kitchen-microseg <span class="st alpha">alpha</span></li>
+                <li><span class="id">OPS-07</span> <a href="https://github.com/technika11y/menu-a11y-engine">menu-a11y-engine</a> <span class="st alpha">alpha</span></li>
+                <li><span class="id">OPS-08</span> <a href="https://github.com/technika11y/allergen-validator">allergen-validator</a> <span class="st alpha">alpha</span></li>
+                <li><span class="id">OPS-09</span> <a href="https://github.com/technika11y/iot-firmware-auditor">iot-firmware-auditor</a> <span class="st alpha">alpha</span></li>
+                <li><span class="id">OPS-10</span> <a href="https://github.com/technika11y/kitchen-microsegmenter">kitchen-microseg</a> <span class="st alpha">alpha</span></li>
                 <li><span class="id">OPS-11</span> price-optimizer <span class="st planned">planned</span></li>
-                <li><span class="id">OPS-12</span> sous-vide-telemetry <span class="st planned">planned</span></li>
+                <li><span class="id">OPS-12</span> <a href="https://github.com/technika11y/sous-vide-telemetry">sous-vide-telemetry</a> <span class="st alpha">alpha</span></li>
                 <li><span class="id">OPS-13</span> food-waste-engine <span class="st planned">planned</span></li>
                 <li><span class="id">OPS-14</span> skim-identity <span class="st gated">de-risk</span></li>
               </ul>
@@ -313,8 +318,8 @@
             <div class="detail-body">
               <p style="color:var(--muted); font-size:.8rem; margin:.2rem 0 .8rem;">Affectionate homages, built real — outside the core 28.</p>
               <ul class="roster">
-                <li><span class="id">LAB-01</span> tron <span class="st alpha">alpha</span></li>
-                <li><span class="id">LAB-02</span> cyberdyne <span class="st alpha">alpha</span></li>
+                <li><span class="id">LAB-01</span> <a href="https://github.com/technika11y/tron">tron</a> <span class="st alpha">alpha</span></li>
+                <li><span class="id">LAB-02</span> <a href="https://github.com/technika11y/cyberdyne">cyberdyne</a> <span class="st alpha">alpha</span></li>
               </ul>
             </div>
           </details>
