@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work with Technika11y — accessibility & security compliance</title>
+  <meta name="description" content="Independent accessibility and food-service-security compliance: audits, remediation, and the VPAT procurement asks for — backed by open tooling.">
+  <style>
+    :root{
+      --bg:#0d0d0d;--panel:#121316;--ink:#d3dbe3;--muted:#8b95a1;--cyan:#00ffff;--magenta:#ff00ff;
+      --yellow:#ffff00;--line:#1e2128;
+      --mono:ui-monospace,"JetBrains Mono","Fira Code","SFMono-Regular",Menlo,Consolas,monospace;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);line-height:1.6}
+    a{color:var(--cyan)}
+    a:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+    .skip{position:absolute;left:-999px;top:0;background:var(--yellow);color:#000;padding:.6rem 1rem;font-weight:700}
+    .skip:focus{left:.5rem;top:.5rem}
+    .wrap{width:min(820px,92vw);margin:0 auto;padding:2.2rem 0 4rem}
+    .top{display:flex;gap:1rem;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:1rem}
+    .brand{font-weight:800;letter-spacing:.12em;text-decoration:none;color:var(--ink)}
+    .brand .n{color:var(--cyan)}
+    .top nav{margin-left:auto;display:flex;gap:1rem}
+    .top nav a{color:var(--muted);text-decoration:none;font-size:.85rem}
+    .top nav a:hover{color:var(--cyan)}
+    h1{font-size:clamp(1.6rem,5vw,2.4rem);margin:1.6rem 0 .3rem;line-height:1.15}
+    .lede{color:var(--muted);max-width:60ch;margin:0 0 1.8rem}
+    h2{color:var(--magenta);font-size:1rem;letter-spacing:.04em;margin:2.4rem 0 .8rem}
+    h2::before{content:"// "}
+    .cards{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+    .card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:8px;padding:1.2rem 1.3rem}
+    .card h3{margin:.1rem 0 .5rem;font-size:1.05rem}
+    .card p{color:var(--muted);font-size:.9rem;margin:.4rem 0}
+    .card ul{margin:.5rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.88rem}
+    .card li{margin:.25rem 0}
+    ol.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:.7rem}
+    ol.steps li{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem .8rem 3rem;position:relative;color:var(--muted);font-size:.9rem}
+    ol.steps li::before{counter-increment:s;content:"0" counter(s);position:absolute;left:1rem;color:var(--cyan);font-weight:700}
+    ol.steps b{color:var(--ink)}
+    .evidence{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+    .evidence a{font-size:.78rem;border:1px solid var(--line);border-radius:999px;padding:.2rem .7rem;text-decoration:none;color:var(--cyan)}
+    .cta{background:var(--panel);border:1px solid var(--cyan);border-radius:10px;padding:1.4rem 1.5rem;margin:2.4rem 0 1rem;text-align:center}
+    .cta a.btn{display:inline-block;margin-top:.7rem;background:var(--cyan);color:#04141a;font-weight:700;text-decoration:none;padding:.7rem 1.4rem;border-radius:6px}
+    .note{color:var(--muted);font-size:.82rem;border-left:3px solid var(--line);padding-left:1rem;margin-top:2rem}
+    footer{border-top:1px solid var(--line);margin-top:2rem;padding-top:1rem;color:var(--muted);font-size:.82rem}
+    footer .mono{color:var(--cyan)}
+    @media(forced-colors:active){.card,.cta{border-color:CanvasText}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="index.html">TECHNIKA<span class="n">11</span>Y</a>
+      <nav aria-label="Primary"><a href="index.html">home</a><a href="dashboard.html">status</a><a href="blog/">blog</a></nav>
+    </div>
+
+    <main id="main">
+      <h1>Compliance you can prove.</h1>
+      <p class="lede">Independent accessibility and food-service-security work: we audit, we remediate,
+        and we hand you the evidence a regulator or a procurement office actually asks for — not a
+        slide that says "we care about accessibility."</p>
+
+      <h2>what we do</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Accessibility compliance</h3>
+          <p>For municipalities, government contractors, universities, and vendors selling into the
+            public sector — where <strong>ADA</strong>, <strong>Section&nbsp;508</strong>, and the
+            <strong>European Accessibility Act</strong> make this a legal requirement, not a nicety.</p>
+          <ul>
+            <li>PDF and web audits against WCAG&nbsp;2.2 AA and PDF/UA (ISO&nbsp;14289)</li>
+            <li>Remediation — we fix the documents and templates, not just flag them</li>
+            <li>A <strong>VPAT / ACR</strong> with a defensible, dated conformance claim</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Food-service security &amp; compliance</h3>
+          <p>The underserved corner: connected kitchens running temperature probes, KDS screens, and
+            a POS on one flat network, with HACCP obligations and no tooling.</p>
+          <ul>
+            <li>Kitchen-IoT network assessment — zero-trust segmentation so a compromised sensor
+              can't reach the register</li>
+            <li>Tamper-evident HACCP temperature evidence</li>
+            <li>Allergen-labelling and menu-accessibility review</li>
+          </ul>
+        </article>
+      </div>
+
+      <h2>how an engagement runs</h2>
+      <ol class="steps">
+        <li><b>Scope.</b> A short call to define the estate — which documents, which sites, which systems — and the deadline you're working to.</li>
+        <li><b>Audit.</b> We assess it, running the same open tools we build in the open, plus manual expert review where automation can't reach.</li>
+        <li><b>Deliver.</b> Remediated files and a signed VPAT/ACR, or a segmentation + HACCP report — with the findings traced to the standard they map to.</li>
+      </ol>
+
+      <h2>the work is in the open</h2>
+      <p class="lede">You don't have to take our word for the rigour — the tooling is public and
+        tested. The engagement is expert human work; these are the instruments behind it.</p>
+      <div class="evidence">
+        <a href="https://github.com/technika11y/pdf-ua-linter">pdf-ua-linter</a>
+        <a href="https://github.com/technika11y/vpat-generator">vpat-generator</a>
+        <a href="https://github.com/technika11y/shadow-dom-auditor">shadow-dom-auditor</a>
+        <a href="https://github.com/technika11y/kitchen-microsegmenter">kitchen-microsegmenter</a>
+        <a href="https://github.com/technika11y/incident-disclosure-toolkit">incident-disclosure-toolkit</a>
+        <a href="https://github.com/technika11y">…the full suite</a>
+      </div>
+
+      <div class="cta">
+        <strong>Have a deadline — an audit, a remediation backlog, a procurement review?</strong>
+        <div style="color:var(--muted);font-size:.88rem;margin-top:.4rem">Tell us the estate and the date. We'll come back with a scoped quote.</div>
+        <a class="btn" href="mailto:technika11yspeakn@gmail.com?subject=Technika11y%20—%20engagement%20enquiry">Get a scoped quote</a>
+      </div>
+
+      <p class="note">Technika11y is an independent specialist practice. The open-source tools are
+        pre-alpha and improving in public; client engagements are delivered as expert human work,
+        not as unattended software. We'll always tell you what a tool can and can't yet do — the
+        same honesty the repositories are built on.</p>
+    </main>
+
+    <footer><span class="mono">chmod +a11y</span> — Technika11y · <a href="index.html">home</a> · <a href="accessibility.html">accessibility</a></footer>
+  </div>
+</body>
+</html>
